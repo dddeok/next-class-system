@@ -1,8 +1,7 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import emailAuthReducer from '../features/emailAuth/utils/emailAuth.reducer';
-
+import classReducer from '../features/class/uitls/class.reducer';
 const rootReducer = combineReducers({
-  auth: emailAuthReducer,
+  class: classReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

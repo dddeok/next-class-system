@@ -1,6 +1,6 @@
 import { fork } from 'redux-saga/effects';
-import { watchEmailAuth } from '../features/emailAuth/utils/emailAuth.saga';
 
+import { watchClass } from '../features/class/uitls/class.saga';
 export default function* rootSaga() {
-  yield fork(watchEmailAuth);
+  yield fork(watchClass);
 }
