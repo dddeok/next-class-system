@@ -1,0 +1,11 @@
+{
+  "eslint.enable": true,
+  "eslint.packageManager": "npm",
+  "eslint.workingDirectories": [
+    {
+      "changeProcessCWD": true,
+      "directory": "./main"
+    }
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
