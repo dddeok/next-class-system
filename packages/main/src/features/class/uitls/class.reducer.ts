@@ -4,6 +4,7 @@ import { RootState } from '../../../app/rootReducer';
 import { fetchClassSuccess } from './class.action';
 const classAdpater = createEntityAdapter<Class>({
   selectId: item => item.id,
+  sortComparer: (a, b) => b.score.toString().localeCompare(a.score.toString()),
 });
 
 const initialState = classAdpater.getInitialState({});
