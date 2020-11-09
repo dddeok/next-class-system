@@ -1,8 +1,13 @@
 import { createReducer, createEntityAdapter } from '@reduxjs/toolkit';
-import { Class } from '../../class/uitls/class.interface';
-import { addPaymentPriceStart, deletePaymentPriceStart } from './payment.action';
+import { Payment } from './payment.interface';
+
+import {
+  addPaymentPriceSuccess,
+  deletePaymentPriceStart,
+  changePaymentCountStart,
+} from './payment.action';
 import { RootState } from '../../../app/rootReducer';
-const paymentAdapter = createEntityAdapter<Class>({
+const paymentAdapter = createEntityAdapter<Payment>({
   selectId: item => item.id,
 });
 
@@ -11,21 +16,38 @@ const initialState = paymentAdapter.getInitialState({
 });
 
 const reducer = createReducer(initialState, {
-  [addPaymentPriceStart.type]: (
+  [addPaymentPriceSuccess.type]: (
     state,
-    action: ReturnType<typeof addPaymentPriceStart>,
+    action: ReturnType<typeof addPaymentPriceSuccess>,
   ) => {
-    const result = action.payload;
-    paymentAdapter.addOne(state, result);
-    state.totalPrice += result.price;
+    const payment = action.payload;
+    paymentAdapter.addOne(state, payment);
+    state.totalPrice += payment.price * payment.count;
   },
   [deletePaymentPriceStart.type]: (
     state,
     action: ReturnType<typeof deletePaymentPriceStart>,
   ) => {
     const id = action.payload;
-    state.totalPrice -= state.entities[id].price;
+    state.totalPrice -= state.entities[id].price * state.entities[id].count;
     paymentAdapter.removeOne(state, id);
+  },
+  [changePaymentCountStart.type]: (
+    state,
+    action: ReturnType<typeof changePaymentCountStart>,
+  ) => {
+    const { id, count } = action.payload;
+
+    if (state.entities[id].count > count)
+      state.totalPrice -= state.entities[id].price * (state.entities[id].count - count);
+    else
+      state.totalPrice += state.entities[id].price * (count - state.entities[id].count);
+    paymentAdapter.updateOne(state, {
+      id: id,
+      changes: {
+        count: count,
+      },
+    });
   },
 });
 
