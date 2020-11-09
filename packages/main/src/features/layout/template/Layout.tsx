@@ -8,12 +8,13 @@ const Container = styled.div`
   height: 100%;
   min-width: 1024px;
   min-height: 550px;
+  overflow: hidden;
 `;
 
 const Content = styled.div`
-  display: inline-flex;
-  overflow: auto;
-  flex: 1;
+  display: flex;
+  width: 100%;
+  height: 100%;
 `;
 
 const Layout = ({ children }) => {

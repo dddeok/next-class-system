@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import Router from 'next/router';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -27,12 +27,15 @@ const menuMap = [
   { title: '장바구니', route: '/cart' },
 ];
 const Navigation = () => {
+  function pushRoute(route: string) {
+    Router.push(route, route, { shallow: true });
+  }
   return (
     <Container>
       {menuMap.map(menu => {
         const { title, route } = menu;
         return (
-          <Menu key={route} href={route}>
+          <Menu key={route} onClick={() => pushRoute(route)}>
             {title}
           </Menu>
         );

@@ -1,14 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { classSelector } from '../uitls/class.reducer';
+import { cartSelector } from '../../cart/utils/cart.reducer';
+import { addCartStart, deleteCartStart } from '../../cart/utils/cart.action';
 import ClassCardItem from '../component/item/ClassCardItem';
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-
+  padding: 30px 0px;
   .classes-title {
     font-size: 18px;
     font-weight: bold;
@@ -26,16 +29,31 @@ const Container = styled.div`
 `;
 
 const Classes = () => {
-  const ids = useSelector(classSelector.selectIds);
-  const entities = useSelector(classSelector.selectEntities);
+  const dispatch = useDispatch();
+  const classIds = useSelector(classSelector.selectIds);
+  const classEntities = useSelector(classSelector.selectEntities);
+  const cartEntiteis = useSelector(cartSelector.selectEntities);
+
+  function onInCart(cart, isInCart) {
+    if (isInCart) dispatch(deleteCartStart(cart.id));
+    else dispatch(addCartStart(cart));
+  }
   return (
     <Container>
       <h2 className="classes-title">클래스 목록</h2>
       <div className="classes-content">
-        {ids.map(id => {
-          const { coverImage, title, price } = entities[id];
+        {classIds.map(id => {
+          const { coverImage, title, price } = classEntities[id];
+          const isInCart = cartEntiteis[id] ? true : false;
           return (
-            <ClassCardItem key={id} imageURL={coverImage} title={title} price={price} />
+            <ClassCardItem
+              key={id}
+              imageURL={coverImage}
+              title={title}
+              price={price}
+              isInCart={isInCart}
+              onInCart={() => onInCart(classEntities[id], isInCart)}
+            />
           );
         })}
       </div>
