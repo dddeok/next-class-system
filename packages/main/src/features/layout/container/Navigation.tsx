@@ -11,7 +11,7 @@ const Container = styled.div`
   padding: 30px 0px;
 `;
 
-const Menu = styled.a`
+const Menu = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,6 +20,7 @@ const Menu = styled.a`
   font-size: 16px;
   color: #535562;
   text-decoration: none;
+  cursor: pointer;
 `;
 
 const menuMap = [
@@ -27,15 +28,15 @@ const menuMap = [
   { title: '장바구니', route: '/cart' },
 ];
 const Navigation = () => {
-  function pushRoute(route: string) {
-    Router.push(route, route, { shallow: true });
-  }
   return (
     <Container>
       {menuMap.map(menu => {
         const { title, route } = menu;
+        function pushRoute() {
+          Router.push(`${route}`, `${route}`, { shallow: true });
+        }
         return (
-          <Menu key={route} onClick={() => pushRoute(route)}>
+          <Menu key={route} onClick={pushRoute}>
             {title}
           </Menu>
         );
