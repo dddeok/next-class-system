@@ -7,7 +7,9 @@ const cartAdapter = createEntityAdapter<Class>({
   selectId: item => item.id,
 });
 
-const initialState = cartAdapter.getInitialState({});
+const initialState = cartAdapter.getInitialState({
+  totalcount: 0,
+});
 
 const reducer = createReducer(initialState, {
   [addCartSuccess.type]: (state, action: ReturnType<typeof addCartStart>) => {
