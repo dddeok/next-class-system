@@ -5,6 +5,8 @@ import {
   addPaymentPriceSuccess,
   deletePaymentPriceStart,
   changePaymentCountStart,
+  changePaymentCouponStart,
+  changePaymentCouponSuccess,
 } from './payment.action';
 import { RootState } from '../../../app/rootReducer';
 const paymentAdapter = createEntityAdapter<Payment>({
@@ -13,6 +15,8 @@ const paymentAdapter = createEntityAdapter<Payment>({
 
 const initialState = paymentAdapter.getInitialState({
   totalPrice: 0,
+  salePrice: 0,
+  selectedCoupon: null,
 });
 
 const reducer = createReducer(initialState, {
@@ -42,18 +46,35 @@ const reducer = createReducer(initialState, {
       state.totalPrice -= state.entities[id].price * (state.entities[id].count - count);
     else
       state.totalPrice += state.entities[id].price * (count - state.entities[id].count);
-    paymentAdapter.updateOne(state, {
-      id: id,
-      changes: {
-        count: count,
-      },
-    });
+    if (count)
+      paymentAdapter.updateOne(state, {
+        id: id,
+        changes: {
+          count: count,
+        },
+      });
+  },
+  [changePaymentCouponStart.type]: (
+    state,
+    action: ReturnType<typeof changePaymentCouponStart>,
+  ) => {
+    const coupon = action.payload;
+    state.selectedCoupon = coupon;
+  },
+  [changePaymentCouponSuccess.type]: (
+    state,
+    action: ReturnType<typeof changePaymentCouponSuccess>,
+  ) => {
+    const price = action.payload;
+    state.salePrice = price;
   },
 });
 
 export default reducer;
 
 export const selectPaymentTotalPrice = (state: RootState) => state.payment.totalPrice;
+export const selectPaymentSalePrice = (state: RootState) => state.payment.salePrice;
+export const selectPaymentCoupon = (state: RootState) => state.payment.selectedCoupon;
 export const paymentSelector = paymentAdapter.getSelectors<RootState>(
   (state: RootState) => state.payment,
 );

@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { Class } from '../../class/uitls/class.interface';
-import { Payment } from './payment.interface';
+import { Payment, Coupon } from './payment.interface';
 export const addPaymentPriceStart = createAction(
   'payment/addPaymentPriceStart',
   (result: Class) => {
@@ -33,6 +33,22 @@ export const changePaymentCountStart = createAction(
   (id: string, count: number) => {
     return {
       payload: { id, count },
+    };
+  },
+);
+
+export const changePaymentCouponStart = createAction(
+  'payment/changePaymentCouponStart',
+  (coupon: Coupon) => {
+    return { payload: coupon };
+  },
+);
+
+export const changePaymentCouponSuccess = createAction(
+  'payment/changePaymentCouponSuccess',
+  (price: number | null) => {
+    return {
+      payload: price,
     };
   },
 );

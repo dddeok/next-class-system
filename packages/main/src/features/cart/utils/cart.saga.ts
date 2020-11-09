@@ -1,7 +1,8 @@
 import { takeEvery, all, put } from 'redux-saga/effects';
 import { select } from 'typed-redux-saga';
-import { addCartStart, addCartSuccess } from './cart.action';
+import { addCartStart, addCartSuccess, deleteCartStart } from './cart.action';
 import { cartSelector } from './cart.reducer';
+import { deletePaymentPriceStart } from '../../payment/utils/payment.action';
 function* addCartSaga(action: ReturnType<typeof addCartStart>) {
   try {
     const cart = action.payload;
@@ -13,6 +14,18 @@ function* addCartSaga(action: ReturnType<typeof addCartStart>) {
   }
 }
 
+function* deleteCartSaga(action: ReturnType<typeof deleteCartStart>) {
+  try {
+    const id = action.payload;
+    yield put(deletePaymentPriceStart(id));
+  } catch (err) {
+    console.log(err.message);
+  }
+}
+
 export function* watchCart() {
-  yield all([takeEvery(addCartStart.type, addCartSaga)]);
+  yield all([
+    takeEvery(addCartStart.type, addCartSaga),
+    takeEvery(deleteCartStart.type, deleteCartSaga),
+  ]);
 }
