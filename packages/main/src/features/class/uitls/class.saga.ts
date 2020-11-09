@@ -1,4 +1,4 @@
-import { takeEvery, takeLatest, all, put } from 'redux-saga/effects';
+import { takeLatest, all, put } from 'redux-saga/effects';
 import { productItems } from './classItem';
 import { fetchClassStart, fetchClassSuccess } from './class.action';
 

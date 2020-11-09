@@ -36,7 +36,6 @@ function* changePaymentCouponSaga(action: ReturnType<typeof changePaymentCouponS
           if (availableCoupon === false) return;
           else {
             newPrice -= price * count * (coupon.discountRate / 100);
-            console.log(newPrice);
           }
         });
 

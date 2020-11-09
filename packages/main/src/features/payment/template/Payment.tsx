@@ -7,7 +7,6 @@ import {
   selectPaymentTotalPrice,
   selectPaymentSalePrice,
   selectPaymentCoupon,
-  paymentSelector,
 } from '../utils/payment.reducer';
 import { numberWithCommas } from '../../class/function/numberWithCommas';
 import { changePaymentCouponStart } from '../utils/payment.action';
@@ -49,7 +48,6 @@ const Payment = () => {
   const dispatch = useDispatch();
   const totlePrice = useSelector(selectPaymentTotalPrice);
   const salePrice = useSelector(selectPaymentSalePrice);
-  const payments = useSelector(paymentSelector.selectEntities);
   const coupon = useSelector(selectPaymentCoupon);
 
   useEffect(() => {

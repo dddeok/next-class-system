@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
 
 import Carts from '../container/Carts';
 import Payment from '../../payment/template/Payment';
